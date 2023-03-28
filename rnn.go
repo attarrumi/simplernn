@@ -104,7 +104,7 @@ func (r *RNN) Run(inputs, outputs [][]float64, learningRate float64, epoch, batc
 			batchX := inputs[i:end]
 			batchY := outputs[i:end]
 			for o, input := range batchX {
-				r.Train(input, hprev, batchY[o], 0.1)
+				r.Train(input, hprev, batchY[o], learningRate)
 				copy(hprev, input)
 				if (r.n+1)%(epoch/10) == 0 {
 					avgLoss := r.TotalLoss / float64(r.n)
