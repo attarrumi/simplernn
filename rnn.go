@@ -79,7 +79,7 @@ func (r *RNN) Train(input, hprev, target []float64, learningRate float64) {
 		r.TotalLoss += 0.5 * math.Pow(target[i]-finalOutputs.At(i, 0), 2)
 	}
 
-	outputErrors := subtract(targets, finalOutputs)
+	outputErrors := subtract(finalOutputs, targets)
 
 	hiddenErrors := dot1(r.who.T(), outputErrors)
 
@@ -106,7 +106,7 @@ func (r *RNN) Run(inputs, outputs [][]float64, learningRate float64, epoch, batc
 			for o, input := range batchX {
 				r.Train(input, hprev, batchY[o], learningRate)
 				copy(hprev, input)
-				if (r.n+1)%(epoch/10) == 0 {
+				if (r.n+1)%(1000) == 0 {
 					avgLoss := r.TotalLoss / float64(r.n)
 					fmt.Printf("Epoch %d: Loss = %.4f \n", r.n+1, avgLoss)
 				}
